@@ -8,7 +8,7 @@ namespace SecuringSynoptic
 {
     public class EncryptImage
     {
-        public static string Encrypt(string pass, string data, string path)
+        public static string Encrypt(string pass, string data, string path, Bitmap img)
         {
            
             // Declare the password that will allow you to retrieve the encrypted data later
@@ -25,8 +25,8 @@ namespace SecuringSynoptic
 
             // Declare the new name of the file that will be generated with the hidden information
             //string pathResultImage = @"C:\Users\matth\Desktop\nevera_with_hidden.png";
-            string pathResultImage = @"C:\Users\matth\Desktop\sun_with_hidden.jpg";
-            //string pathResultImage = path.Substring(path.Length - 4) + "\\with_hidden.png";
+            string testPath = path.Remove(path.Length - 4) + "_with_hidden.jpg";
+            string pathResultImage = testPath;
 
 
             // Create an instance of the SteganographyHelper
@@ -34,6 +34,7 @@ namespace SecuringSynoptic
 
             // Encrypt your data to increase security
             // Remember: only the encrypted data should be stored on the image
+            //string encryptedData = CipherHelper.Encrypt(_DATA_TO_HIDE, _PASSWORD);
             string encryptedData = CipherHelper.Encrypt(_DATA_TO_HIDE, _PASSWORD);
 
             // Create an instance of the original image without indexed pixels

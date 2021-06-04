@@ -33,15 +33,13 @@ namespace SecuringSynoptic.Controllers
 
         public ActionResult EncryptImages(IFormFile file, IndexViewModel data)
         {
-            string uniqueFilename;
             if (System.IO.Path.GetExtension(file.FileName) == ".jpg" && file.Length < 1048576)
-            {
+            {/*
                 using (var f = file.OpenReadStream())
                 {
                     string absolutePath = _host.WebRootPath + @"\pictures\" + file.FileName;
                     using (FileStream fsOut = new FileStream(absolutePath, FileMode.CreateNew, FileAccess.Write))
                     {
-                        // throw new Exception();
                         f.CopyTo(fsOut);
                         f.Close();
                     }
@@ -50,13 +48,39 @@ namespace SecuringSynoptic.Controllers
                    EncryptImage.Encrypt(data.Password, data.Text, _host.WebRootPath + @"\pictures\" + file.FileName);
                 
                 return RedirectToAction("Index", "Home");
+                */
+                Bitmap img;
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    file.CopyTo(memoryStream);
+
+                    // making a new bitmap from uploaded image
+                    Image tempImg = Image.FromStream(memoryStream);
+                    img = (Bitmap)tempImg;
+                }
+                EncryptImage.Encrypt(data.Password, data.Text, _host.WebRootPath + @"\pictures\" + file.FileName, img);
+
+
+                var stream = new MemoryStream();
+                //  
+                img.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                //string format = MediaTypeNames.Application.Octet.ToString(); -> doing this leads to direct download
+                string format = "image/jpg";
+                stream.Seek(0, SeekOrigin.Begin);
+                FileStreamResult res = base.File(stream, format); ;
+
+                res.FileDownloadName = "steganodecode.png";
+                return res;
+
             }
             return RedirectToAction("Index", "Home");
         }
 
         public ActionResult DecryptImages(IndexViewModel data)
         {
-            DecryptImage.Decrypt();
+            DecryptImage.Decrypt(data.Password);
             return RedirectToAction("Index", "Home");
         }
         public IActionResult Privacy()
