@@ -1,0 +1,22 @@
+﻿@model SecuringSynoptic.ViewModels.IndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<form asp-action="EncryptImages" enctype="multipart/form-data">
+    
+    <img src="~/nevera.png" />
+    <hr />
+    <input type="checkbox" asp-for="Checked"/> <p>Encrypted</p>
+    <input asp-for="Text" placeholder="Text to encode within the image" />
+    <br />
+    <hr />
+
+    <h2>Password: </h2>
+    <input type="password" asp-for="Password" />
+    <hr />
+    <input type="submit" value="Submit"/>
+
+    <button>Extract</button>
+ </form>
