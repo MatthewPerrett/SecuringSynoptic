@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,10 +28,11 @@ namespace SecuringSynoptic
             );
 
             // Decrypt the retrieven data on the image
-            string decryptedData = CipherHelper.Encrypt(_PASSWORD, encryptedData);
+            string decryptedData = CipherHelper.Decrypt(encryptedData, _PASSWORD);
 
             // Display the secret text in the console or in a messagebox
             // In our case is "Hello, no one should know that my password is 12345"
+            Debug.WriteLine(decryptedData);
             return decryptedData;
             
             //MessageBox.Show(decryptedData);

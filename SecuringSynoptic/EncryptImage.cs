@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace SecuringSynoptic
 {
     public class EncryptImage
     {
-        public static string Encrypt(string pass, string data, string path, Bitmap img)
+        public static Bitmap Encrypt(string pass, string data, string path, Bitmap img)
         {
            
             // Declare the password that will allow you to retrieve the encrypted data later
@@ -38,16 +39,17 @@ namespace SecuringSynoptic
             string encryptedData = CipherHelper.Encrypt(_DATA_TO_HIDE, _PASSWORD);
 
             // Create an instance of the original image without indexed pixels
-            Bitmap originalImage = SteganographyHelper.CreateNonIndexedImage(Image.FromFile(pathOriginalImage));
+            //Bitmap originalImage = SteganographyHelper.CreateNonIndexedImage(Image.FromFile(pathOriginalImage));
             // Conceal the encrypted data on the image !
-            Bitmap imageWithHiddenData = SteganographyHelper.MergeText(encryptedData, originalImage);
+            //Bitmap imageWithHiddenData = SteganographyHelper.MergeText(encryptedData, img);
+            Bitmap imageWithHiddenData = Steganography.embedText(encryptedData, img);
 
             // Save the image with the hidden information somewhere :)
             // In this case the generated file will be image_example_with_hidden_information.png
-            imageWithHiddenData.Save(pathResultImage);
-
-            string work = "Index";
-            return work;
+            //imageWithHiddenData.Save(pathResultImage);
+            //Debug.WriteLine(encryptedData);
+            //string work = "Index";
+            return imageWithHiddenData;
         }
     }
 }

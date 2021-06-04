@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+<h2>Hide Data</h2>
 <form asp-action="EncryptImages" enctype="multipart/form-data">
 
-    label asp-for="ImageUrl" class="control-label"></label>
+    <label asp-for="ImageUrl" class="control-label"></label>
     <input type="file" name="file" class="form-control" />
     <span name="file" class="text-danger"></span>
     <hr />
@@ -18,8 +19,32 @@
     <input type="password" asp-for="Password" />
     <hr />
     <input type="submit" value="Hide" />
+</form>
+<br />
+
+<h2>Extract Data</h2>
+<form asp-action="DecryptImages" enctype="multipart/form-data">
+
+    <label asp-for="ImageUrl" class="control-label"></label>
+    <input type="file" name="file" class="form-control" />
+    <span name="file" class="text-danger"></span>
+    <hr />
+    <input type="checkbox" asp-for="Checked" /> <p>Encrypted</p>
+    <input asp-for="Text" placeholder="Text to encode within the image" />
+    <br />
+    <hr />
+
+    <h5>Password: </h5>
+    <input type="password" asp-for="Password" />
+    <hr />
 
     <input type="submit" value="Extract" />
+
+    
 </form>
-   
+
+<div>
+    <p>@ViewData["text"]</p>
+</div>
+
 

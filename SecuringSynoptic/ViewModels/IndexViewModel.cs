@@ -12,6 +12,7 @@ namespace SecuringSynoptic.ViewModels
             public string Password { get; set; }
             public string ImageUrl { get; set; }
             public bool Checked { get; set; }
+            public string Returned { get; set; }
     }
 }
 
