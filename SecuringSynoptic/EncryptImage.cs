@@ -8,7 +8,7 @@ namespace SecuringSynoptic
 {
     public class EncryptImage
     {
-        public static string Encrypt(string pass, string data)
+        public static string Encrypt(string pass, string data, string path)
         {
            
             // Declare the password that will allow you to retrieve the encrypted data later
@@ -20,11 +20,12 @@ namespace SecuringSynoptic
             string _DATA_TO_HIDE = data;
 
             // Declare the path where the original image is located
-            string pathOriginalImage = @"C:\Users\matth\Desktop\nevera.png";
+            string pathOriginalImage = path;
             //string pathOriginalImage = path;
 
             // Declare the new name of the file that will be generated with the hidden information
-            string pathResultImage = @"C:\Users\matth\Desktop\nevera_with_hidden.png";
+            //string pathResultImage = @"C:\Users\matth\Desktop\nevera_with_hidden.png";
+            string pathResultImage = @"C:\Users\matth\Desktop\sun_with_hidden.jpg";
             //string pathResultImage = path.Substring(path.Length - 4) + "\\with_hidden.png";
 
 

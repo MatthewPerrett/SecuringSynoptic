@@ -34,70 +34,22 @@ namespace SecuringSynoptic.Controllers
         public ActionResult EncryptImages(IFormFile file, IndexViewModel data)
         {
             string uniqueFilename;
-            if (System.IO.Path.GetExtension(file.FileName) == ".jpg"
-                &&
-                file.Length < 1048576)
+            if (System.IO.Path.GetExtension(file.FileName) == ".jpg" && file.Length < 1048576)
             {
-                //FF D8 >>>>> 255 216
-
-                byte[] whitelist = new byte[] { 255, 216 };
-
-                if (file != null)
+                using (var f = file.OpenReadStream())
                 {
-                    MemoryStream userFile = new MemoryStream();
-
-                    using (var f = file.OpenReadStream())
+                    string absolutePath = _host.WebRootPath + @"\pictures\" + file.FileName;
+                    using (FileStream fsOut = new FileStream(absolutePath, FileMode.CreateNew, FileAccess.Write))
                     {
-                        //int byte1 = f.ReadByte();
-                        //int byte2 = f.ReadByte();
-
-                        byte[] buffer = new byte[2];  //how to read an x amount of bytes at 1 go
-                        f.Read(buffer, 0, 2); //offset - how many bytes you would lke the pointer to skip
-
-                        for (int i = 0; i < whitelist.Length; i++)
-                        {
-                            if (whitelist[i] == buffer[i])
-                            {
-
-                            }
-                            else
-                            {
-                                //the file is not acceptable
-                                ModelState.AddModelError("file", "File is not valid and acceptable");
-                                return View();
-                            }
-
-                        }
-                        //...other reading of bytes happening
-                        f.Position = 0;
-
-                        //uploading the file
-                        //correctness
-                        uniqueFilename = Guid.NewGuid() + Path.GetExtension(file.FileName);
-                        data.ImageUrl = uniqueFilename;
-
-                        string absolutePath = _host.WebRootPath + @"\pictures\" + uniqueFilename;
-                        try
-                        {
-                            using (FileStream fsOut = new FileStream(absolutePath, FileMode.CreateNew, FileAccess.Write))
-                            {
-                                // throw new Exception();
-                                f.CopyTo(fsOut);
-                            }
-                            //   f.CopyTo(userFile); //this goes instead writing the file into a folder
-                            f.Close();
-                            EncryptImage.Encrypt(data.Password, data.Text);
-                            return RedirectToAction("Index", "Home");
-                        }
-                        catch (Exception ex)
-                        {
-                            //log
-                            _logger.LogError(ex, "Error happend while saving file");
-                            return RedirectToAction("Index", "Home");
-                        }
-
+                        // throw new Exception();
+                        f.CopyTo(fsOut);
+                        f.Close();
                     }
                 }
+
+                   EncryptImage.Encrypt(data.Password, data.Text, _host.WebRootPath + @"\pictures\" + file.FileName);
+                
+                return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Index", "Home");
         }
