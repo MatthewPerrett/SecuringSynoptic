@@ -8,22 +8,24 @@ namespace SecuringSynoptic
 {
     public class EncryptImage
     {
-        public static string Encrypt()
+        public static string Encrypt(string pass, string data)
         {
-            
-            System.Diagnostics.Debug.WriteLine("TEst");
-
-
+           
             // Declare the password that will allow you to retrieve the encrypted data later
-            string _PASSWORD = "password";
+            //string _PASSWORD = "password";
+            string _PASSWORD = pass;
 
             // The String data to conceal on the image
-            string _DATA_TO_HIDE = "Hello, no one should know that my password is 12345";
+            //string _DATA_TO_HIDE = "Hello, no one should know that my password is 12345";
+            string _DATA_TO_HIDE = data;
 
             // Declare the path where the original image is located
             string pathOriginalImage = @"C:\Users\matth\Desktop\nevera.png";
+            //string pathOriginalImage = path;
+
             // Declare the new name of the file that will be generated with the hidden information
             string pathResultImage = @"C:\Users\matth\Desktop\nevera_with_hidden.png";
+            //string pathResultImage = path.Substring(path.Length - 4) + "\\with_hidden.png";
 
 
             // Create an instance of the SteganographyHelper

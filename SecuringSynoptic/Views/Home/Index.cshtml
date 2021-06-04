@@ -3,20 +3,23 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <form asp-action="EncryptImages" enctype="multipart/form-data">
-    
-    <img src="~/nevera.png" />
+
+    label asp-for="ImageUrl" class="control-label"></label>
+    <input type="file" name="file" class="form-control" />
+    <span name="file" class="text-danger"></span>
     <hr />
-    <input type="checkbox" asp-for="Checked"/> <p>Encrypted</p>
+    <input type="checkbox" asp-for="Checked" /> <p>Encrypted</p>
     <input asp-for="Text" placeholder="Text to encode within the image" />
     <br />
     <hr />
 
-    <h2>Password: </h2>
+    <h5>Password: </h5>
     <input type="password" asp-for="Password" />
     <hr />
-    <input type="submit" value="Submit"/>
+    <input type="submit" value="Hide" />
 
-    <button>Extract</button>
- </form>
+    <input type="submit" value="Extract" />
+</form>
+   
+
