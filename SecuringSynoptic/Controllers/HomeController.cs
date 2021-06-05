@@ -59,7 +59,7 @@ namespace SecuringSynoptic.Controllers
                     Image tempImg = Image.FromStream(memoryStream);
                     img = (Bitmap)tempImg;
                 }
-                img = EncryptImage.Encrypt(data.Password, data.Text, _host.WebRootPath + @"\pictures\" + file.FileName, img);
+                img = EncryptImage.Encrypt(data.Password, data.Text, img);
 
 
                 var stream = new MemoryStream();
@@ -78,12 +78,23 @@ namespace SecuringSynoptic.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult DecryptImages(IndexViewModel data)
+        public ActionResult DecryptImages(IFormFile file, IndexViewModel data)
         {
-         
-            string text = DecryptImage.Decrypt(data.Password , "C:\\Users\\matth\\Desktop\\image_with_hidden2.png");
-           
-            ViewData["text"] = text;
+            if (System.IO.Path.GetExtension(file.FileName) == ".png" && file.Length < 1048576)
+            {
+                Bitmap img;
+
+                using (var memoryStream = new MemoryStream())
+                {
+                    file.CopyTo(memoryStream);
+                    Image tempImg = Image.FromStream(memoryStream);
+                    img = (Bitmap)tempImg;
+                }
+                string text = DecryptImage.Decrypt(data.Password, img);
+
+                ViewData["text"] = text;
+                return View();
+            }
             return View();
         }
         public IActionResult Privacy()

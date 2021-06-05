@@ -6,7 +6,7 @@
 <h2>Hide Data</h2>
 <form asp-action="EncryptImages" enctype="multipart/form-data">
 
-    <label asp-for="ImageUrl" class="control-label"></label>
+    <label asp-for="ImageUrl" class="control-label">Upload Image</label>
     <input type="file" name="file" class="form-control" />
     <span name="file" class="text-danger"></span>
     <hr />
@@ -25,12 +25,11 @@
 <h2>Extract Data</h2>
 <form asp-action="DecryptImages" enctype="multipart/form-data">
 
-    <label asp-for="ImageUrl" class="control-label"></label>
+    <label asp-for="ImageUrl" class="control-label">Upload Image</label>
     <input type="file" name="file" class="form-control" />
     <span name="file" class="text-danger"></span>
     <hr />
     <input type="checkbox" asp-for="Checked" /> <p>Encrypted</p>
-    <input asp-for="Text" placeholder="Text to encode within the image" />
     <br />
     <hr />
 
