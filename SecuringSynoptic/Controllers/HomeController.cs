@@ -35,44 +35,25 @@ namespace SecuringSynoptic.Controllers
         {
             if (System.IO.Path.GetExtension(file.FileName) == ".jpg" && file.Length < 1048576)
             {
-                /*
-                using (var f = file.OpenReadStream())
-                {
-                    string absolutePath = _host.WebRootPath + @"\pictures\" + file.FileName;
-                    using (FileStream fsOut = new FileStream(absolutePath, FileMode.CreateNew, FileAccess.Write))
-                    {
-                        f.CopyTo(fsOut);
-                        f.Close();
-                    }
-                }
-
-                EncryptImage.Encrypt(data.Password, data.Text, _host.WebRootPath + @"\pictures\" + file.FileName);
-                
-                return RedirectToAction("Index", "Home");
-                */
-                
-                Bitmap img;
+                Bitmap image;
 
                 using (var memoryStream = new MemoryStream())
                 {
                     file.CopyTo(memoryStream);
                     Image tempImg = Image.FromStream(memoryStream);
-                    img = (Bitmap)tempImg;
+                    image = (Bitmap)tempImg;
                 }
-                img = EncryptImage.Encrypt(data.Password, data.Text, img);
-
+                image = EncryptTextAndEmbed.EncryptAndEmbedText(data.Password, data.Text, image);
 
                 var stream = new MemoryStream();
-                //  
-                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
 
-                //string format = MediaTypeNames.Application.Octet.ToString(); -> doing this leads to direct download
                 string format = "image/png";
                 stream.Seek(0, SeekOrigin.Begin);
-                FileStreamResult res = base.File(stream, format); ;
+                FileStreamResult img = base.File(stream, format); ;
 
-                res.FileDownloadName = "image_with_hidden.png";
-                return res;
+                img.FileDownloadName = "embeddedImage.png";
+                return img;
 
             }
             return RedirectToAction("Index", "Home");
@@ -90,7 +71,7 @@ namespace SecuringSynoptic.Controllers
                     Image tempImg = Image.FromStream(memoryStream);
                     img = (Bitmap)tempImg;
                 }
-                string text = DecryptImage.Decrypt(data.Password, img);
+                string text = DecryptTextAndEmbed.DecryptAndExtractText(data.Password, img);
 
                 ViewData["text"] = text;
                 return View();

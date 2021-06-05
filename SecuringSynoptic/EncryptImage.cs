@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace SecuringSynoptic
 {
-    public class EncryptImage
+    public class EncryptTextAndEmbed
     {
-        public static Bitmap Encrypt(string pass, string data, Bitmap img)
+        public static Bitmap EncryptAndEmbedText(string pass, string data, Bitmap img)
         {
             string encryptedData = CipherHelper.Encrypt(data, pass);
             Bitmap imageWithHiddenData = Steganography.embedText(encryptedData, img);
