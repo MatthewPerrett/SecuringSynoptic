@@ -43,8 +43,14 @@ namespace SecuringSynoptic.Controllers
                     Image tempImg = Image.FromStream(memoryStream);
                     image = (Bitmap)tempImg;
                 }
-                image = EncryptTextAndEmbed.EncryptAndEmbedText(data.Password, data.Text, image);
-
+                if (data.Checked == true)
+                {
+                    image = EncryptTextAndEmbed.EncryptAndEmbedText(data.Password, data.Text, image);
+                }
+                else
+                {
+                    image = Steganography.embedText(data.Text, image);
+                }
                 var stream = new MemoryStream();
                 image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
 
@@ -63,17 +69,25 @@ namespace SecuringSynoptic.Controllers
         {
             if (System.IO.Path.GetExtension(file.FileName) == ".png" && file.Length < 1048576)
             {
-                Bitmap img;
+                Bitmap image;
+                string text;
 
                 using (var memoryStream = new MemoryStream())
                 {
                     file.CopyTo(memoryStream);
                     Image tempImg = Image.FromStream(memoryStream);
-                    img = (Bitmap)tempImg;
+                    image = (Bitmap)tempImg;
                 }
-                string text = DecryptTextAndEmbed.DecryptAndExtractText(data.Password, img);
-
-                ViewData["text"] = text;
+                if (data.Checked == true)
+                {
+                    text = DecryptTextAndExtract.DecryptAndExtractText(data.Password, image);
+                    ViewData["text"] = text;
+                }
+                else
+                {
+                    text = Steganography.extractText(image);
+                    ViewData["text"] = text;
+                }
                 return View();
             }
             return View();

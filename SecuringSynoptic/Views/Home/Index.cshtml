@@ -12,6 +12,7 @@
     <hr />
     <input asp-for="Text" placeholder="Text to encode within the image" />
     <hr />
+    <input asp-for="Checked", type="checkbox" /><p>Encrypted</p>
     <h5>Password: </h5>
     <input type="password" asp-for="Password" />
     <hr />
@@ -27,14 +28,14 @@
     <span name="file" class="text-danger"></span>
     <hr />
     <hr />
-
+    <input asp-for="Checked" , type="checkbox" /><p>Is text Encrypted?</p>
     <h5>Password: </h5>
     <input type="password" asp-for="Password" />
     <hr />
 
     <input type="submit" value="Extract" />
 
-    
+
 </form>
 
 <div>
