@@ -33,7 +33,7 @@ namespace SecuringSynoptic.Controllers
 
         public ActionResult EncryptImages(IFormFile file, IndexViewModel data)
         {
-            if (System.IO.Path.GetExtension(file.FileName) == ".jpg" && file.Length < 1000000)
+            if (System.IO.Path.GetExtension(file.FileName) == ".jpg" && file.Length < 10000000)
             {
                 Bitmap image;
 
@@ -70,7 +70,7 @@ namespace SecuringSynoptic.Controllers
 
         public ActionResult DecryptImages(IFormFile file, IndexViewModel data)
         {
-            if (System.IO.Path.GetExtension(file.FileName) == ".png" && file.Length < 1000000)
+            if (System.IO.Path.GetExtension(file.FileName) == ".png" && file.Length < 10000000)
             {
                 Bitmap image;
                 string text;
