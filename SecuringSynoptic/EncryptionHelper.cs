@@ -28,7 +28,7 @@ public static class EncryptionHelper
     }
     public static string Decrypt(string cipherText, string pass)
     {
-       
+        try { 
         cipherText = cipherText.Replace(" ", "+");
         byte[] cipherBytes = Convert.FromBase64String(cipherText);
         using (Aes encryptor = Aes.Create())
@@ -47,5 +47,11 @@ public static class EncryptionHelper
             }
         }
         return cipherText;
+        }
+        catch (Exception e)
+        { 
+        string msg = "Incorrect or empty password";
+        return msg;
+        }
     }
 }

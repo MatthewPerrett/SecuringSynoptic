@@ -61,6 +61,9 @@ namespace SecuringSynoptic.Controllers
                 img.FileDownloadName = "embeddedImage.png";
                 return img;
 
+            }else if (file == null)
+            {
+                return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Index", "Home");
         }
