@@ -12,7 +12,7 @@ namespace SecuringSynoptic
         public static string DecryptAndExtractText(string pass, Bitmap img)
         {
             string encryptedData = Steganography.extractText(img); 
-            string decryptedData = CipherHelper.Decrypt(encryptedData, pass);
+            string decryptedData = EncryptionHelper.Decrypt(encryptedData, pass);
             return decryptedData;
         }
     }

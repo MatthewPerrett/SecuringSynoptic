@@ -33,15 +33,15 @@ namespace SecuringSynoptic.Controllers
 
         public ActionResult EncryptImages(IFormFile file, IndexViewModel data)
         {
-            if (System.IO.Path.GetExtension(file.FileName) == ".jpg" && file.Length < 1048576)
+            if (System.IO.Path.GetExtension(file.FileName) == ".jpg" && file.Length < 1000000)
             {
                 Bitmap image;
 
                 using (var memoryStream = new MemoryStream())
                 {
                     file.CopyTo(memoryStream);
-                    Image tempImg = Image.FromStream(memoryStream);
-                    image = (Bitmap)tempImg;
+                    Image uploadedImg = Image.FromStream(memoryStream);
+                    image = (Bitmap)uploadedImg;
                 }
                 if (data.Checked == true)
                 {
@@ -57,7 +57,7 @@ namespace SecuringSynoptic.Controllers
                 string format = "image/png";
                 stream.Seek(0, SeekOrigin.Begin);
                 FileStreamResult img = base.File(stream, format); ;
-
+                
                 img.FileDownloadName = "embeddedImage.png";
                 return img;
 
@@ -67,7 +67,7 @@ namespace SecuringSynoptic.Controllers
 
         public ActionResult DecryptImages(IFormFile file, IndexViewModel data)
         {
-            if (System.IO.Path.GetExtension(file.FileName) == ".png" && file.Length < 1048576)
+            if (System.IO.Path.GetExtension(file.FileName) == ".png" && file.Length < 1000000)
             {
                 Bitmap image;
                 string text;
@@ -90,10 +90,6 @@ namespace SecuringSynoptic.Controllers
                 }
                 return View();
             }
-            return View();
-        }
-        public IActionResult Privacy()
-        {
             return View();
         }
 
